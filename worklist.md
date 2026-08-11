@@ -19,8 +19,8 @@
 - [x] 2-4. 원격 저장소 연결 (`origin`: `https://github.com/Duebii/tutle.git`)
 - [x] 2-5. `.gitignore` 작성 및 불필요한 파일 제외 확인
 - [x] 2-6. `README.md` 초안 작성
-- [ ] 2-7. 첫 커밋 후 GitHub에 `push`
-- [ ] 2-8. 공개 샘플 저장소를 `clone`하여 구조와 로그 확인
+- [x] 2-7. 첫 커밋 후 GitHub에 `push` (`b9aa4a9` 업로드 완료)
+- [x] 2-8. 공개 샘플 저장소를 `clone`하여 구조와 로그 확인 (octocat/Hello-World)
 
 ## 3. 프로그램 기본 구조
 
