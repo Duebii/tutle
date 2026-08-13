@@ -68,11 +68,20 @@ def show_menu():
 def add_prompt():
     """새 프롬프트의 제목, 내용, 카테고리를 입력받는다."""
     print("\n=== 프롬프트 추가 ===")
-    title = input("제목: ").strip()
-    content = input("내용: ").strip()
+    title = get_required_input("제목")
+    content = get_required_input("내용")
     category = select_category()
     print(f"입력한 프롬프트: [{category}] {title}")
     return title, content, category
+
+
+def get_required_input(field_name):
+    """비어 있지 않은 입력값을 받을 때까지 반복한다."""
+    while True:
+        value = input(f"{field_name}: ").strip()
+        if value:
+            return value
+        print(f"{field_name}은(는) 비워 둘 수 없습니다. 다시 입력해 주세요.")
 
 
 def select_category():
@@ -81,11 +90,14 @@ def select_category():
     for index, category in enumerate(CATEGORIES, start=1):
         print(f"{index}. {category}")
 
-    choice = input("번호 또는 새 카테고리 입력: ").strip()
-    if choice.isdigit() and 1 <= int(choice) <= len(CATEGORIES):
-        return CATEGORIES[int(choice) - 1]
+    while True:
+        choice = input("번호 또는 새 카테고리 입력: ").strip()
+        if choice.isdigit() and 1 <= int(choice) <= len(CATEGORIES):
+            return CATEGORIES[int(choice) - 1]
+        if choice:
+            return choice
 
-    return choice
+        print("카테고리는 비워 둘 수 없습니다. 다시 입력해 주세요.")
 
 
 def handle_menu_choice(choice):
