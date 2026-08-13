@@ -66,9 +66,26 @@ def show_menu():
 
 
 def add_prompt():
-    """새 프롬프트를 추가하는 기능의 시작 화면을 출력한다."""
+    """새 프롬프트의 제목, 내용, 카테고리를 입력받는다."""
     print("\n=== 프롬프트 추가 ===")
-    print("프롬프트 정보를 입력하는 기능을 준비 중입니다.")
+    title = input("제목: ").strip()
+    content = input("내용: ").strip()
+    category = select_category()
+    print(f"입력한 프롬프트: [{category}] {title}")
+    return title, content, category
+
+
+def select_category():
+    """카테고리 목록에서 선택하거나 새 카테고리를 직접 입력받는다."""
+    print("\n카테고리 선택:")
+    for index, category in enumerate(CATEGORIES, start=1):
+        print(f"{index}. {category}")
+
+    choice = input("번호 또는 새 카테고리 입력: ").strip()
+    if choice.isdigit() and 1 <= int(choice) <= len(CATEGORIES):
+        return CATEGORIES[int(choice) - 1]
+
+    return choice
 
 
 def handle_menu_choice(choice):
