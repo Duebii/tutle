@@ -77,8 +77,11 @@ def handle_menu_choice(choice):
         "7": "즐겨찾기 목록",
     }
 
-    if choice in menu_names:
-        print(f"'{menu_names[choice]}' 기능은 준비 중입니다.")
+    if choice not in menu_names:
+        print("잘못된 메뉴 번호입니다. 다시 선택해 주세요.")
+        return
+
+    print(f"'{menu_names[choice]}' 기능은 준비 중입니다.")
 
 
 def main():
