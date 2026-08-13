@@ -1,5 +1,9 @@
 """나만의 프롬프트 관리 프로그램 실행 파일."""
 
+# ============================================================
+# 1. 프로그램 데이터
+# ============================================================
+
 CATEGORIES = [
     "텍스트 생성",
     "이미지 생성",
@@ -11,6 +15,7 @@ CATEGORIES = [
 
 REQUIRED_PROMPT_FIELDS = {"title", "content", "category", "favorite"}
 
+# 프로그램을 실행하는 동안 관리할 프롬프트 목록
 prompts = [
     {
         "title": "블로그 글 작성 도우미",
@@ -32,6 +37,21 @@ prompts = [
     },
 ]
 
+# 메뉴 번호와 메뉴 이름
+MENU_NAMES = {
+    "1": "프롬프트 추가",
+    "2": "프롬프트 목록",
+    "3": "카테고리별 조회",
+    "4": "프롬프트 검색",
+    "5": "프롬프트 상세 보기",
+    "6": "즐겨찾기 관리",
+    "7": "즐겨찾기 목록",
+}
+
+
+# ============================================================
+# 2. 데이터 확인 함수
+# ============================================================
 
 def is_valid_prompt(prompt):
     """프롬프트가 필수 정보와 올바른 자료형을 갖췄는지 확인한다."""
@@ -52,35 +72,9 @@ def is_valid_prompt_list(prompt_list):
     )
 
 
-def show_menu():
-    """프로그램에서 선택할 수 있는 메뉴를 출력한다."""
-    print("\n=== 나만의 프롬프트 관리 ===")
-    print("1. 프롬프트 추가")
-    print("2. 프롬프트 목록")
-    print("3. 카테고리별 조회")
-    print("4. 프롬프트 검색")
-    print("5. 프롬프트 상세 보기")
-    print("6. 즐겨찾기 관리")
-    print("7. 즐겨찾기 목록")
-    print("0. 종료")
-
-
-def add_prompt():
-    """새 프롬프트의 제목, 내용, 카테고리를 입력받는다."""
-    print("\n=== 프롬프트 추가 ===")
-    title = get_required_input("제목")
-    content = get_required_input("내용")
-    category = select_category()
-    new_prompt = {
-        "title": title,
-        "content": content,
-        "category": category,
-        "favorite": False,
-    }
-    prompts.append(new_prompt)
-    print(f"'{title}' 프롬프트가 추가되었습니다.")
-    return new_prompt
-
+# ============================================================
+# 3. 입력 보조 함수
+# ============================================================
 
 def get_required_input(field_name):
     """비어 있지 않은 입력값을 받을 때까지 반복한다."""
@@ -107,27 +101,58 @@ def select_category():
         print("카테고리는 비워 둘 수 없습니다. 다시 입력해 주세요.")
 
 
+# ============================================================
+# 4. 프롬프트 기능
+# ============================================================
+
+def add_prompt():
+    """입력받은 프롬프트를 목록에 추가하고 기본값은 즐겨찾기 해제로 설정한다."""
+    print("\n=== 프롬프트 추가 ===")
+    title = get_required_input("제목")
+    content = get_required_input("내용")
+    category = select_category()
+
+    # 새 항목은 실행 중인 prompts 리스트의 마지막에 저장된다.
+    new_prompt = {
+        "title": title,
+        "content": content,
+        "category": category,
+        "favorite": False,
+    }
+    prompts.append(new_prompt)
+
+    print(f"'{title}' 프롬프트가 추가되었습니다.")
+    return new_prompt
+
+
+# ============================================================
+# 5. 메뉴와 프로그램 실행
+# ============================================================
+
+def show_menu():
+    """프로그램에서 선택할 수 있는 메뉴를 출력한다."""
+    print("\n=== 나만의 프롬프트 관리 ===")
+    print("1. 프롬프트 추가")
+    print("2. 프롬프트 목록")
+    print("3. 카테고리별 조회")
+    print("4. 프롬프트 검색")
+    print("5. 프롬프트 상세 보기")
+    print("6. 즐겨찾기 관리")
+    print("7. 즐겨찾기 목록")
+    print("0. 종료")
+
+
 def handle_menu_choice(choice):
     """선택한 메뉴의 현재 상태를 안내한다."""
-    menu_names = {
-        "1": "프롬프트 추가",
-        "2": "프롬프트 목록",
-        "3": "카테고리별 조회",
-        "4": "프롬프트 검색",
-        "5": "프롬프트 상세 보기",
-        "6": "즐겨찾기 관리",
-        "7": "즐겨찾기 목록",
-    }
-
     if choice == "1":
         add_prompt()
         return
 
-    if choice not in menu_names:
+    if choice not in MENU_NAMES:
         print("잘못된 메뉴 번호입니다. 다시 선택해 주세요.")
         return
 
-    print(f"'{menu_names[choice]}' 기능은 준비 중입니다.")
+    print(f"'{MENU_NAMES[choice]}' 기능은 준비 중입니다.")
 
 
 def main():
