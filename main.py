@@ -9,6 +9,8 @@ CATEGORIES = [
     "기타",
 ]
 
+REQUIRED_PROMPT_FIELDS = {"title", "content", "category", "favorite"}
+
 prompts = [
     {
         "title": "블로그 글 작성 도우미",
@@ -29,6 +31,18 @@ prompts = [
         "favorite": False,
     },
 ]
+
+
+def is_valid_prompt(prompt):
+    """프롬프트가 필수 정보와 올바른 자료형을 갖췄는지 확인한다."""
+    return (
+        isinstance(prompt, dict)
+        and set(prompt) == REQUIRED_PROMPT_FIELDS
+        and isinstance(prompt["title"], str)
+        and isinstance(prompt["content"], str)
+        and isinstance(prompt["category"], str)
+        and isinstance(prompt["favorite"], bool)
+    )
 
 
 def main():
