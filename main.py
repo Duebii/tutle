@@ -45,6 +45,13 @@ def is_valid_prompt(prompt):
     )
 
 
+def is_valid_prompt_list(prompt_list):
+    """프롬프트 전체 데이터가 딕셔너리 목록으로 구성됐는지 확인한다."""
+    return isinstance(prompt_list, list) and all(
+        is_valid_prompt(prompt) for prompt in prompt_list
+    )
+
+
 def main():
     """프로그램 시작 메시지를 출력한다."""
     print("나만의 프롬프트 관리 프로그램을 시작합니다.")
