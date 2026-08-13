@@ -1,7 +1,157 @@
-"""나만의 프롬프트 관리 프로그램의 실행 흐름."""
+"""나만의 프롬프트 관리 프로그램."""
 
-from menu import handle_menu_choice, show_menu
+# ============================================================
+# 1. 기본 데이터
+# ============================================================
 
+CATEGORIES = [
+    "텍스트 생성",
+    "이미지 생성",
+    "영상 생성",
+    "페르소나",
+    "자동화",
+    "기타",
+]
+
+REQUIRED_PROMPT_FIELDS = {"title", "content", "category", "favorite"}
+
+# 프로그램을 실행하는 동안 관리하는 프롬프트 목록
+prompts = [
+    {
+        "title": "블로그 글 작성 도우미",
+        "content": "주어진 주제에 대해 SEO를 고려한 블로그 글을 작성해 주세요.",
+        "category": "텍스트 생성",
+        "favorite": True,
+    },
+    {
+        "title": "제품 소개 이미지 생성",
+        "content": "제품의 특징이 잘 드러나는 광고용 이미지를 생성해 주세요.",
+        "category": "이미지 생성",
+        "favorite": False,
+    },
+    {
+        "title": "IT 콘텐츠 페르소나",
+        "content": "초보자도 이해하기 쉽게 설명하는 IT 콘텐츠 전문가 역할을 해 주세요.",
+        "category": "페르소나",
+        "favorite": False,
+    },
+]
+
+MENU_NAMES = {
+    "1": "프롬프트 추가",
+    "2": "프롬프트 목록",
+    "3": "카테고리별 조회",
+    "4": "프롬프트 검색",
+    "5": "프롬프트 상세 보기",
+    "6": "즐겨찾기 관리",
+    "7": "즐겨찾기 목록",
+}
+
+
+# ============================================================
+# 2. 데이터 검증 함수
+# ============================================================
+
+def is_valid_prompt(prompt):
+    """프롬프트가 필수 정보와 올바른 자료형을 갖췄는지 확인한다."""
+    return (
+        isinstance(prompt, dict)
+        and set(prompt) == REQUIRED_PROMPT_FIELDS
+        and isinstance(prompt["title"], str)
+        and isinstance(prompt["content"], str)
+        and isinstance(prompt["category"], str)
+        and isinstance(prompt["favorite"], bool)
+    )
+
+
+def is_valid_prompt_list(prompt_list):
+    """프롬프트 전체 데이터가 딕셔너리 목록으로 구성됐는지 확인한다."""
+    return isinstance(prompt_list, list) and all(
+        is_valid_prompt(prompt) for prompt in prompt_list
+    )
+
+
+# ============================================================
+# 3. 입력 보조 함수
+# ============================================================
+
+def get_required_input(field_name):
+    """비어 있지 않은 입력값을 받을 때까지 반복한다."""
+    while True:
+        value = input(f"{field_name}: ").strip()
+        if value:
+            return value
+        print(f"{field_name}은(는) 비워 둘 수 없습니다. 다시 입력해 주세요.")
+
+
+def select_category():
+    """카테고리 목록에서 선택하거나 새 카테고리를 직접 입력받는다."""
+    print("\n카테고리 선택:")
+    for index, category in enumerate(CATEGORIES, start=1):
+        print(f"{index}. {category}")
+
+    while True:
+        choice = input("번호 또는 새 카테고리 입력: ").strip()
+        if choice.isdigit() and 1 <= int(choice) <= len(CATEGORIES):
+            return CATEGORIES[int(choice) - 1]
+        if choice:
+            return choice
+
+        print("카테고리는 비워 둘 수 없습니다. 다시 입력해 주세요.")
+
+
+# ============================================================
+# 4. 프롬프트 기능
+# ============================================================
+
+def add_prompt():
+    """입력받은 프롬프트를 목록에 추가한다."""
+    print("\n=== 프롬프트 추가 ===")
+    title = get_required_input("제목")
+    content = get_required_input("내용")
+    category = select_category()
+
+    # 새 항목은 실행 중인 prompts 리스트에 저장되고 즐겨찾기는 기본 해제다.
+    new_prompt = {
+        "title": title,
+        "content": content,
+        "category": category,
+        "favorite": False,
+    }
+    prompts.append(new_prompt)
+
+    print(f"'{title}' 프롬프트가 추가되었습니다.")
+    return new_prompt
+
+
+# ============================================================
+# 5. 메뉴 함수
+# ============================================================
+
+def show_menu():
+    """프로그램에서 선택할 수 있는 메뉴를 출력한다."""
+    print("\n=== 나만의 프롬프트 관리 ===")
+    for number, name in MENU_NAMES.items():
+        print(f"{number}. {name}")
+    print("0. 종료")
+
+
+def handle_menu_choice(choice):
+    """선택한 메뉴의 기능을 실행하거나 안내를 출력한다."""
+    if choice == "1":
+        add_prompt()
+        return
+
+    if choice not in MENU_NAMES:
+        print("잘못된 메뉴 번호입니다. 다시 선택해 주세요.")
+        return
+
+    print(f"'{MENU_NAMES[choice]}' 기능은 준비 중입니다.")
+
+
+# ============================================================
+# 6. 프로그램 실행
+# ============================================================
 
 def main():
     """메뉴를 반복 출력하고 사용자 선택을 처리한다."""
