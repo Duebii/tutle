@@ -52,9 +52,23 @@ def is_valid_prompt_list(prompt_list):
     )
 
 
+def show_menu():
+    """프로그램에서 선택할 수 있는 메뉴를 출력한다."""
+    print("\n=== 나만의 프롬프트 관리 ===")
+    print("1. 프롬프트 추가")
+    print("2. 프롬프트 목록")
+    print("3. 카테고리별 조회")
+    print("4. 프롬프트 검색")
+    print("5. 프롬프트 상세 보기")
+    print("6. 즐겨찾기 관리")
+    print("7. 즐겨찾기 목록")
+    print("0. 종료")
+
+
 def main():
     """프로그램 시작 메시지를 출력한다."""
     print("나만의 프롬프트 관리 프로그램을 시작합니다.")
+    show_menu()
 
 
 if __name__ == "__main__":
