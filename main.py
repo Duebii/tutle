@@ -65,6 +65,12 @@ def show_menu():
     print("0. 종료")
 
 
+def add_prompt():
+    """새 프롬프트를 추가하는 기능의 시작 화면을 출력한다."""
+    print("\n=== 프롬프트 추가 ===")
+    print("프롬프트 정보를 입력하는 기능을 준비 중입니다.")
+
+
 def handle_menu_choice(choice):
     """선택한 메뉴의 현재 상태를 안내한다."""
     menu_names = {
@@ -76,6 +82,10 @@ def handle_menu_choice(choice):
         "6": "즐겨찾기 관리",
         "7": "즐겨찾기 목록",
     }
+
+    if choice == "1":
+        add_prompt()
+        return
 
     if choice not in menu_names:
         print("잘못된 메뉴 번호입니다. 다시 선택해 주세요.")
