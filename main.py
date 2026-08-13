@@ -71,8 +71,14 @@ def add_prompt():
     title = get_required_input("제목")
     content = get_required_input("내용")
     category = select_category()
+    new_prompt = {
+        "title": title,
+        "content": content,
+        "category": category,
+        "favorite": False,
+    }
     print(f"입력한 프롬프트: [{category}] {title}")
-    return title, content, category
+    return new_prompt
 
 
 def get_required_input(field_name):
