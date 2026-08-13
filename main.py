@@ -77,7 +77,8 @@ def add_prompt():
         "category": category,
         "favorite": False,
     }
-    print(f"입력한 프롬프트: [{category}] {title}")
+    prompts.append(new_prompt)
+    print(f"'{title}' 프롬프트가 추가되었습니다.")
     return new_prompt
 
 
