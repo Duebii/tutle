@@ -124,6 +124,12 @@ def add_prompt():
     return new_prompt
 
 
+def show_list():
+    """등록된 프롬프트 목록 화면을 출력한다."""
+    print("\n=== 프롬프트 목록 ===")
+    print("프롬프트 목록을 출력하는 기능을 준비 중입니다.")
+
+
 # ============================================================
 # 5. 메뉴 함수
 # ============================================================
@@ -140,6 +146,10 @@ def handle_menu_choice(choice):
     """선택한 메뉴의 기능을 실행하거나 안내를 출력한다."""
     if choice == "1":
         add_prompt()
+        return
+
+    if choice == "2":
+        show_list()
         return
 
     if choice not in MENU_NAMES:
