@@ -185,6 +185,10 @@ def search_prompt():
         or keyword_lower in prompt["content"].lower()
     ]
     print(f"\n=== '{keyword}' 검색 결과 ===")
+    if not matched_prompts:
+        print("검색 결과가 없습니다.")
+        return matched_prompts
+
     for index, prompt in enumerate(matched_prompts, start=1):
         favorite_mark = "★" if prompt["favorite"] else "☆"
         print(
