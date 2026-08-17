@@ -145,6 +145,30 @@ def show_categories():
         print(f"{index}. {category}")
 
 
+def select_category_for_search():
+    """조회할 카테고리를 번호로 선택받는다."""
+    while True:
+        choice = input("카테고리 번호 선택: ").strip()
+        if choice.isdigit() and 1 <= int(choice) <= len(CATEGORIES):
+            return CATEGORIES[int(choice) - 1]
+
+        print("올바른 카테고리 번호를 입력해 주세요.")
+
+
+def show_prompts_by_category():
+    """선택한 카테고리에 속하는 프롬프트만 출력한다."""
+    show_categories()
+    category = select_category_for_search()
+    filtered_prompts = [
+        prompt for prompt in prompts if prompt["category"] == category
+    ]
+
+    print(f"\n=== [{category}] 카테고리 프롬프트 ===")
+    for index, prompt in enumerate(filtered_prompts, start=1):
+        favorite_mark = "★" if prompt["favorite"] else "☆"
+        print(f"{index}. {prompt['title']} {favorite_mark}")
+
+
 # ============================================================
 # 5. 메뉴 함수
 # ============================================================
@@ -168,7 +192,7 @@ def handle_menu_choice(choice):
         return
 
     if choice == "3":
-        show_categories()
+        show_prompts_by_category()
         return
 
     if choice not in MENU_NAMES:
