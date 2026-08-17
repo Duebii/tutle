@@ -173,6 +173,12 @@ def show_prompts_by_category():
         print(f"{index}. {prompt['title']} {favorite_mark}")
 
 
+def search_prompt():
+    """프롬프트 검색 기능의 시작 화면을 출력한다."""
+    print("\n=== 프롬프트 검색 ===")
+    print("검색어를 입력하는 기능을 준비 중입니다.")
+
+
 # ============================================================
 # 5. 메뉴 함수
 # ============================================================
@@ -197,6 +203,10 @@ def handle_menu_choice(choice):
 
     if choice == "3":
         show_prompts_by_category()
+        return
+
+    if choice == "4":
+        search_prompt()
         return
 
     if choice not in MENU_NAMES:
