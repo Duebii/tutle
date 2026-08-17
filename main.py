@@ -240,6 +240,12 @@ def toggle_favorite():
     return selected_prompt
 
 
+def show_favorites():
+    """즐겨찾기 프롬프트 목록 화면을 출력한다."""
+    print("\n=== 즐겨찾기 목록 ===")
+    print("즐겨찾기 목록을 출력하는 기능을 준비 중입니다.")
+
+
 # ============================================================
 # 5. 메뉴 함수
 # ============================================================
@@ -276,6 +282,10 @@ def handle_menu_choice(choice):
 
     if choice == "6":
         toggle_favorite()
+        return
+
+    if choice == "7":
+        show_favorites()
         return
 
     if choice not in MENU_NAMES:
