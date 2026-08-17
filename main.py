@@ -198,6 +198,14 @@ def search_prompt():
     return matched_prompts
 
 
+def show_prompt_detail():
+    """상세하게 볼 프롬프트 번호를 입력받는다."""
+    print("\n=== 프롬프트 상세 보기 ===")
+    prompt_number = get_required_input("프롬프트 번호")
+    print(f"{prompt_number}번 프롬프트 상세 정보를 준비합니다.")
+    return prompt_number
+
+
 # ============================================================
 # 5. 메뉴 함수
 # ============================================================
@@ -226,6 +234,10 @@ def handle_menu_choice(choice):
 
     if choice == "4":
         search_prompt()
+        return
+
+    if choice == "5":
+        show_prompt_detail()
         return
 
     if choice not in MENU_NAMES:
