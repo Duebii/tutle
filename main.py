@@ -241,9 +241,16 @@ def toggle_favorite():
 
 
 def show_favorites():
-    """즐겨찾기 프롬프트 목록 화면을 출력한다."""
+    """즐겨찾기로 표시된 프롬프트만 목록으로 출력한다."""
     print("\n=== 즐겨찾기 목록 ===")
-    print("즐겨찾기 목록을 출력하는 기능을 준비 중입니다.")
+    favorite_prompts = [prompt for prompt in prompts if prompt["favorite"]]
+
+    if not favorite_prompts:
+        print("즐겨찾기한 프롬프트가 없습니다.")
+        return
+
+    for index, prompt in enumerate(favorite_prompts, start=1):
+        print(f"{index}. [{prompt['category']}] {prompt['title']} ★")
 
 
 # ============================================================
