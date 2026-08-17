@@ -231,6 +231,12 @@ def toggle_favorite():
     print("\n=== 즐겨찾기 관리 ===")
     selected_prompt = get_prompt_by_number()
     selected_prompt["favorite"] = not selected_prompt["favorite"]
+
+    if selected_prompt["favorite"]:
+        print(f"'{selected_prompt['title']}'을(를) 즐겨찾기에 추가했습니다.")
+    else:
+        print(f"'{selected_prompt['title']}'을(를) 즐겨찾기에서 해제했습니다.")
+
     return selected_prompt
 
 
