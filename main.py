@@ -199,11 +199,20 @@ def search_prompt():
 
 
 def show_prompt_detail():
-    """상세하게 볼 프롬프트 번호를 입력받는다."""
+    """선택한 프롬프트의 상세 정보를 출력한다."""
     print("\n=== 프롬프트 상세 보기 ===")
     prompt_number = get_required_input("프롬프트 번호")
-    print(f"{prompt_number}번 프롬프트 상세 정보를 준비합니다.")
-    return prompt_number
+    selected_prompt = prompts[int(prompt_number) - 1]
+    favorite_mark = "★" if selected_prompt["favorite"] else "☆"
+
+    print("-" * 40)
+    print(f"제목: {selected_prompt['title']}")
+    print(f"카테고리: {selected_prompt['category']}")
+    print(f"즐겨찾기: {favorite_mark}")
+    print("내용:")
+    print(selected_prompt["content"])
+    print("-" * 40)
+    return selected_prompt
 
 
 # ============================================================
