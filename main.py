@@ -125,9 +125,13 @@ def add_prompt():
 
 
 def show_list():
-    """등록된 프롬프트 목록 화면을 출력한다."""
+    """번호, 제목, 카테고리, 즐겨찾기 여부와 함께 목록을 출력한다."""
     print("\n=== 프롬프트 목록 ===")
-    print("프롬프트 목록을 출력하는 기능을 준비 중입니다.")
+    for index, prompt in enumerate(prompts, start=1):
+        favorite_mark = "★" if prompt["favorite"] else "☆"
+        print(
+            f"{index}. [{prompt['category']}] {prompt['title']} {favorite_mark}"
+        )
 
 
 # ============================================================
