@@ -226,6 +226,14 @@ def get_prompt_by_number():
         print("존재하지 않는 프롬프트 번호입니다. 다시 입력해 주세요.")
 
 
+def toggle_favorite():
+    """프롬프트 번호를 입력받아 즐겨찾기 상태를 반대로 바꾼다."""
+    print("\n=== 즐겨찾기 관리 ===")
+    selected_prompt = get_prompt_by_number()
+    selected_prompt["favorite"] = not selected_prompt["favorite"]
+    return selected_prompt
+
+
 # ============================================================
 # 5. 메뉴 함수
 # ============================================================
@@ -258,6 +266,10 @@ def handle_menu_choice(choice):
 
     if choice == "5":
         show_prompt_detail()
+        return
+
+    if choice == "6":
+        toggle_favorite()
         return
 
     if choice not in MENU_NAMES:
