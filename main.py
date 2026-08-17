@@ -184,7 +184,13 @@ def search_prompt():
         if keyword_lower in prompt["title"].lower()
         or keyword_lower in prompt["content"].lower()
     ]
-    print(f"'{keyword}' 검색을 완료했습니다.")
+    print(f"\n=== '{keyword}' 검색 결과 ===")
+    for index, prompt in enumerate(matched_prompts, start=1):
+        favorite_mark = "★" if prompt["favorite"] else "☆"
+        print(
+            f"{index}. [{prompt['category']}] {prompt['title']} {favorite_mark}"
+        )
+
     return matched_prompts
 
 
