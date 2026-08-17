@@ -174,9 +174,11 @@ def show_prompts_by_category():
 
 
 def search_prompt():
-    """프롬프트 검색 기능의 시작 화면을 출력한다."""
+    """검색어를 입력받는다."""
     print("\n=== 프롬프트 검색 ===")
-    print("검색어를 입력하는 기능을 준비 중입니다.")
+    keyword = get_required_input("검색어")
+    print(f"'{keyword}' 검색을 준비합니다.")
+    return keyword
 
 
 # ============================================================
