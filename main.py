@@ -127,6 +127,10 @@ def add_prompt():
 def show_list():
     """번호, 제목, 카테고리, 즐겨찾기 여부와 함께 목록을 출력한다."""
     print("\n=== 프롬프트 목록 ===")
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+
     for index, prompt in enumerate(prompts, start=1):
         favorite_mark = "★" if prompt["favorite"] else "☆"
         print(
