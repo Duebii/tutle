@@ -174,11 +174,18 @@ def show_prompts_by_category():
 
 
 def search_prompt():
-    """검색어를 입력받는다."""
+    """검색어가 제목 또는 내용에 포함된 프롬프트를 찾는다."""
     print("\n=== 프롬프트 검색 ===")
     keyword = get_required_input("검색어")
-    print(f"'{keyword}' 검색을 준비합니다.")
-    return keyword
+    keyword_lower = keyword.lower()
+    matched_prompts = [
+        prompt
+        for prompt in prompts
+        if keyword_lower in prompt["title"].lower()
+        or keyword_lower in prompt["content"].lower()
+    ]
+    print(f"'{keyword}' 검색을 완료했습니다.")
+    return matched_prompts
 
 
 # ============================================================
