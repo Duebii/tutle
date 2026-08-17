@@ -201,8 +201,7 @@ def search_prompt():
 def show_prompt_detail():
     """선택한 프롬프트의 상세 정보를 출력한다."""
     print("\n=== 프롬프트 상세 보기 ===")
-    prompt_number = get_required_input("프롬프트 번호")
-    selected_prompt = prompts[int(prompt_number) - 1]
+    selected_prompt = get_prompt_by_number()
     favorite_mark = "★" if selected_prompt["favorite"] else "☆"
 
     print("-" * 40)
@@ -213,6 +212,18 @@ def show_prompt_detail():
     print(selected_prompt["content"])
     print("-" * 40)
     return selected_prompt
+
+
+def get_prompt_by_number():
+    """올바른 프롬프트 번호를 입력받아 해당 프롬프트를 반환한다."""
+    while True:
+        prompt_number = input("프롬프트 번호: ").strip()
+        if prompt_number.isdigit():
+            prompt_index = int(prompt_number) - 1
+            if 0 <= prompt_index < len(prompts):
+                return prompts[prompt_index]
+
+        print("존재하지 않는 프롬프트 번호입니다. 다시 입력해 주세요.")
 
 
 # ============================================================
