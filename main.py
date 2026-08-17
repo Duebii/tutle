@@ -164,6 +164,10 @@ def show_prompts_by_category():
     ]
 
     print(f"\n=== [{category}] 카테고리 프롬프트 ===")
+    if not filtered_prompts:
+        print(f"'{category}' 카테고리에 등록된 프롬프트가 없습니다.")
+        return
+
     for index, prompt in enumerate(filtered_prompts, start=1):
         favorite_mark = "★" if prompt["favorite"] else "☆"
         print(f"{index}. {prompt['title']} {favorite_mark}")
