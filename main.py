@@ -138,6 +138,13 @@ def show_list():
         )
 
 
+def show_categories():
+    """카테고리별 조회에 사용할 카테고리 목록을 출력한다."""
+    print("\n=== 카테고리별 조회 ===")
+    for index, category in enumerate(CATEGORIES, start=1):
+        print(f"{index}. {category}")
+
+
 # ============================================================
 # 5. 메뉴 함수
 # ============================================================
@@ -158,6 +165,10 @@ def handle_menu_choice(choice):
 
     if choice == "2":
         show_list()
+        return
+
+    if choice == "3":
+        show_categories()
         return
 
     if choice not in MENU_NAMES:
