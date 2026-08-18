@@ -99,7 +99,7 @@
 - [x] 6-4. README에 카테고리 설명 작성
 - [x] 6-5. 기능 단위로 커밋을 나누어 10개 이상 작성 (기능 커밋 31개 확인)
 - [x] 6-6. 별도 기능 브랜치 생성 (feature/ 브랜치 30개 이상 확인)
-- [ ] 6-7. 기능 브랜치 작업 후 `main`으로 `checkout` 및 `merge`
+- [x] 6-7. 기능 브랜치 작업 후 `main`으로 `checkout` 및 `merge` (병합 커밋 다수 확인)
 - [ ] 6-8. `init`, `add`, `commit`, `push`, `pull`, `checkout`, `clone`, `merge` 사용 기록 확인
 - [ ] 6-9. GitHub에 최신 코드 업로드 확인
 - [ ] 6-10. GitHub 저장소 URL 준비
