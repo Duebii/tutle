@@ -103,9 +103,9 @@
 - [x] 6-8. `init`, `add`, `commit`, `push`, `pull`, `checkout`, `clone`, `merge` 사용 기록 확인
 - [x] 6-9. GitHub에 최신 코드 업로드 확인 (`main`과 `origin/main` 동기화 확인)
 - [x] 6-10. GitHub 저장소 URL 준비 (`https://github.com/Duebii/tutle.git`)
-- [ ] 6-11. 개발 환경 설정 화면 스크린샷 준비
-- [ ] 6-12. 프로그램 실행 화면 스크린샷 준비
-- [ ] 6-13. `git log --oneline --graph` 결과 스크린샷 준비
+- [x] 6-11. 개발 환경 설정 화면 스크린샷 준비
+- [x] 6-12. 프로그램 실행 화면 스크린샷 준비
+- [x] 6-13. `git log --oneline --graph` 결과 스크린샷 준비
 
 ## 7. 선택 보너스
 
