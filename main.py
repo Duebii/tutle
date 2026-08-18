@@ -58,6 +58,7 @@ MENU_NAMES = {
     "10": "카테고리별 Markdown 내보내기",
     "11": "프롬프트 수정",
     "12": "프롬프트 삭제",
+    "13": "조회수 Top 3 목록",
 }
 
 
@@ -359,6 +360,30 @@ def show_favorites():
         print(f"{index}. [{prompt['category']}] {prompt['title']} ★")
 
 
+def show_top_viewed_prompts():
+    """상세 보기 횟수가 많은 프롬프트 상위 3개를 출력한다."""
+    print("\n=== 조회수 Top 3 프롬프트 ===")
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return []
+
+    sorted_prompts = sorted(
+        prompts,
+        key=lambda prompt: prompt["view_count"],
+        reverse=True,
+    )
+    top_prompts = sorted_prompts[:3]
+
+    for rank, prompt in enumerate(top_prompts, start=1):
+        favorite_mark = "★" if prompt["favorite"] else "☆"
+        print(
+            f"{rank}위. [{prompt['category']}] {prompt['title']} "
+            f"{favorite_mark} - 조회 {prompt['view_count']}회"
+        )
+
+    return top_prompts
+
+
 def save_prompts_to_json():
     """현재 프롬프트 목록을 JSON 파일로 저장한다."""
     with DATA_FILE.open("w", encoding="utf-8") as file:
@@ -491,6 +516,10 @@ def handle_menu_choice(choice):
 
     if choice == "12":
         delete_prompt()
+        return
+
+    if choice == "13":
+        show_top_viewed_prompts()
         return
 
     if choice not in MENU_NAMES:
