@@ -101,7 +101,7 @@
 - [x] 6-6. 별도 기능 브랜치 생성 (feature/ 브랜치 30개 이상 확인)
 - [x] 6-7. 기능 브랜치 작업 후 `main`으로 `checkout` 및 `merge` (병합 커밋 다수 확인)
 - [x] 6-8. `init`, `add`, `commit`, `push`, `pull`, `checkout`, `clone`, `merge` 사용 기록 확인
-- [ ] 6-9. GitHub에 최신 코드 업로드 확인
+- [x] 6-9. GitHub에 최신 코드 업로드 확인 (`main`과 `origin/main` 동기화 확인)
 - [ ] 6-10. GitHub 저장소 URL 준비
 - [ ] 6-11. 개발 환경 설정 화면 스크린샷 준비
 - [ ] 6-12. 프로그램 실행 화면 스크린샷 준비
