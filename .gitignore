@@ -9,4 +9,3 @@ venv/
 
 # Local prompt data
 prompts.json
-exports/
