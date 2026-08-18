@@ -16,7 +16,7 @@ CATEGORIES = [
     "기타",
 ]
 
-REQUIRED_PROMPT_FIELDS = {"title", "content", "category", "favorite"}
+REQUIRED_PROMPT_FIELDS = {"title", "content", "category", "favorite", "view_count"}
 DATA_FILE = Path("prompts.json")
 EXPORT_DIRECTORY = Path("exports")
 
@@ -27,18 +27,21 @@ prompts = [
         "content": "주어진 주제에 대해 SEO를 고려한 블로그 글을 작성해 주세요.",
         "category": "텍스트 생성",
         "favorite": True,
+        "view_count": 0,
     },
     {
         "title": "제품 소개 이미지 생성",
         "content": "제품의 특징이 잘 드러나는 광고용 이미지를 생성해 주세요.",
         "category": "이미지 생성",
         "favorite": False,
+        "view_count": 0,
     },
     {
         "title": "IT 콘텐츠 페르소나",
         "content": "초보자도 이해하기 쉽게 설명하는 IT 콘텐츠 전문가 역할을 해 주세요.",
         "category": "페르소나",
         "favorite": False,
+        "view_count": 0,
     },
 ]
 
@@ -71,6 +74,8 @@ def is_valid_prompt(prompt):
         and isinstance(prompt["content"], str)
         and isinstance(prompt["category"], str)
         and isinstance(prompt["favorite"], bool)
+        and type(prompt["view_count"]) is int
+        and prompt["view_count"] >= 0
     )
 
 
@@ -79,6 +84,16 @@ def is_valid_prompt_list(prompt_list):
     return isinstance(prompt_list, list) and all(
         is_valid_prompt(prompt) for prompt in prompt_list
     )
+
+
+def add_missing_view_counts(prompt_list):
+    """이전 저장 파일의 프롬프트에 조회수 기본값을 추가한다."""
+    if not isinstance(prompt_list, list):
+        return
+
+    for prompt in prompt_list:
+        if isinstance(prompt, dict) and "view_count" not in prompt:
+            prompt["view_count"] = 0
 
 
 # ============================================================
@@ -127,6 +142,7 @@ def add_prompt():
         "content": content,
         "category": category,
         "favorite": False,
+        "view_count": 0,
     }
     prompts.append(new_prompt)
 
@@ -216,11 +232,13 @@ def show_prompt_detail():
         return
 
     favorite_mark = "★" if selected_prompt["favorite"] else "☆"
+    selected_prompt["view_count"] += 1
 
     print("-" * 40)
     print(f"제목: {selected_prompt['title']}")
     print(f"카테고리: {selected_prompt['category']}")
     print(f"즐겨찾기: {favorite_mark}")
+    print(f"상세 보기 횟수: {selected_prompt['view_count']}회")
     print("내용:")
     print(selected_prompt["content"])
     print("-" * 40)
@@ -362,6 +380,7 @@ def load_prompts_from_json():
         print("JSON 파일을 불러오지 못했습니다.")
         return
 
+    add_missing_view_counts(loaded_prompts)
     if not is_valid_prompt_list(loaded_prompts):
         print("올바른 프롬프트 데이터 형식이 아닙니다.")
         return
