@@ -6,3 +6,6 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+
+# Local prompt data
+prompts.json

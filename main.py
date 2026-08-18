@@ -1,5 +1,8 @@
 """나만의 프롬프트 관리 프로그램."""
 
+import json
+from pathlib import Path
+
 # ============================================================
 # 1. 기본 데이터
 # ============================================================
@@ -14,6 +17,7 @@ CATEGORIES = [
 ]
 
 REQUIRED_PROMPT_FIELDS = {"title", "content", "category", "favorite"}
+DATA_FILE = Path("prompts.json")
 
 # 프로그램을 실행하는 동안 관리하는 프롬프트 목록
 prompts = [
@@ -45,6 +49,8 @@ MENU_NAMES = {
     "5": "프롬프트 상세 보기",
     "6": "즐겨찾기 관리",
     "7": "즐겨찾기 목록",
+    "8": "JSON 저장",
+    "9": "JSON 불러오기",
 }
 
 
@@ -253,6 +259,36 @@ def show_favorites():
         print(f"{index}. [{prompt['category']}] {prompt['title']} ★")
 
 
+def save_prompts_to_json():
+    """현재 프롬프트 목록을 JSON 파일로 저장한다."""
+    with DATA_FILE.open("w", encoding="utf-8") as file:
+        json.dump(prompts, file, ensure_ascii=False, indent=2)
+
+    print(f"{len(prompts)}개의 프롬프트를 '{DATA_FILE}' 파일에 저장했습니다.")
+
+
+def load_prompts_from_json():
+    """JSON 파일의 프롬프트 목록을 현재 목록으로 불러온다."""
+    if not DATA_FILE.exists():
+        print(f"'{DATA_FILE}' 파일이 없습니다. 먼저 저장해 주세요.")
+        return
+
+    try:
+        with DATA_FILE.open("r", encoding="utf-8") as file:
+            loaded_prompts = json.load(file)
+    except (OSError, json.JSONDecodeError):
+        print("JSON 파일을 불러오지 못했습니다.")
+        return
+
+    if not is_valid_prompt_list(loaded_prompts):
+        print("올바른 프롬프트 데이터 형식이 아닙니다.")
+        return
+
+    prompts.clear()
+    prompts.extend(loaded_prompts)
+    print(f"{len(prompts)}개의 프롬프트를 불러왔습니다.")
+
+
 # ============================================================
 # 5. 메뉴 함수
 # ============================================================
@@ -293,6 +329,14 @@ def handle_menu_choice(choice):
 
     if choice == "7":
         show_favorites()
+        return
+
+    if choice == "8":
+        save_prompts_to_json()
+        return
+
+    if choice == "9":
+        load_prompts_from_json()
         return
 
     if choice not in MENU_NAMES:
