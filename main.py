@@ -53,6 +53,8 @@ MENU_NAMES = {
     "8": "JSON 저장",
     "9": "JSON 불러오기",
     "10": "카테고리별 Markdown 내보내기",
+    "11": "프롬프트 수정",
+    "12": "프롬프트 삭제",
 }
 
 
@@ -210,6 +212,9 @@ def show_prompt_detail():
     """선택한 프롬프트의 상세 정보를 출력한다."""
     print("\n=== 프롬프트 상세 보기 ===")
     selected_prompt = get_prompt_by_number()
+    if selected_prompt is None:
+        return
+
     favorite_mark = "★" if selected_prompt["favorite"] else "☆"
 
     print("-" * 40)
@@ -222,22 +227,37 @@ def show_prompt_detail():
     return selected_prompt
 
 
-def get_prompt_by_number():
-    """올바른 프롬프트 번호를 입력받아 해당 프롬프트를 반환한다."""
+def get_prompt_index_by_number():
+    """올바른 프롬프트 번호를 입력받아 목록의 위치를 반환한다."""
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return None
+
     while True:
         prompt_number = input("프롬프트 번호: ").strip()
         if prompt_number.isdigit():
             prompt_index = int(prompt_number) - 1
             if 0 <= prompt_index < len(prompts):
-                return prompts[prompt_index]
+                return prompt_index
 
         print("존재하지 않는 프롬프트 번호입니다. 다시 입력해 주세요.")
+
+
+def get_prompt_by_number():
+    """올바른 프롬프트 번호를 입력받아 해당 프롬프트를 반환한다."""
+    prompt_index = get_prompt_index_by_number()
+    if prompt_index is None:
+        return None
+    return prompts[prompt_index]
 
 
 def toggle_favorite():
     """프롬프트 번호를 입력받아 즐겨찾기 상태를 반대로 바꾼다."""
     print("\n=== 즐겨찾기 관리 ===")
     selected_prompt = get_prompt_by_number()
+    if selected_prompt is None:
+        return
+
     selected_prompt["favorite"] = not selected_prompt["favorite"]
 
     if selected_prompt["favorite"]:
@@ -246,6 +266,66 @@ def toggle_favorite():
         print(f"'{selected_prompt['title']}'을(를) 즐겨찾기에서 해제했습니다.")
 
     return selected_prompt
+
+
+def select_category_for_edit(current_category):
+    """수정할 카테고리를 선택받고 빈 입력이면 기존 값을 유지한다."""
+    print("\n카테고리 선택 (Enter를 누르면 기존 카테고리를 유지합니다):")
+    for index, category in enumerate(CATEGORIES, start=1):
+        print(f"{index}. {category}")
+
+    while True:
+        choice = input(f"번호 또는 새 카테고리 입력 ({current_category} 유지): ").strip()
+        if not choice:
+            return current_category
+        if choice.isdigit() and 1 <= int(choice) <= len(CATEGORIES):
+            return CATEGORIES[int(choice) - 1]
+        if choice:
+            return choice
+
+
+def edit_prompt():
+    """선택한 프롬프트의 제목, 내용, 카테고리를 수정한다."""
+    print("\n=== 프롬프트 수정 ===")
+    show_list()
+    prompt_index = get_prompt_index_by_number()
+    if prompt_index is None:
+        return
+
+    selected_prompt = prompts[prompt_index]
+    title = input(f"새 제목 (Enter: {selected_prompt['title']} 유지): ").strip()
+    content = input("새 내용 (Enter: 기존 내용 유지): ").strip()
+    category = select_category_for_edit(selected_prompt["category"])
+
+    if title:
+        selected_prompt["title"] = title
+    if content:
+        selected_prompt["content"] = content
+    selected_prompt["category"] = category
+
+    print(f"'{selected_prompt['title']}' 프롬프트를 수정했습니다.")
+    return selected_prompt
+
+
+def delete_prompt():
+    """선택한 프롬프트를 확인 후 목록에서 삭제한다."""
+    print("\n=== 프롬프트 삭제 ===")
+    show_list()
+    prompt_index = get_prompt_index_by_number()
+    if prompt_index is None:
+        return
+
+    selected_prompt = prompts[prompt_index]
+    confirmation = input(
+        f"'{selected_prompt['title']}' 프롬프트를 삭제할까요? (y/N): "
+    ).strip().lower()
+    if confirmation != "y":
+        print("삭제를 취소했습니다.")
+        return
+
+    deleted_prompt = prompts.pop(prompt_index)
+    print(f"'{deleted_prompt['title']}' 프롬프트를 삭제했습니다.")
+    return deleted_prompt
 
 
 def show_favorites():
@@ -384,6 +464,14 @@ def handle_menu_choice(choice):
 
     if choice == "10":
         export_prompts_by_category()
+        return
+
+    if choice == "11":
+        edit_prompt()
+        return
+
+    if choice == "12":
+        delete_prompt()
         return
 
     if choice not in MENU_NAMES:
