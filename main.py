@@ -18,6 +18,7 @@ CATEGORIES = [
 
 REQUIRED_PROMPT_FIELDS = {"title", "content", "category", "favorite"}
 DATA_FILE = Path("prompts.json")
+EXPORT_DIRECTORY = Path("exports")
 
 # 프로그램을 실행하는 동안 관리하는 프롬프트 목록
 prompts = [
@@ -51,6 +52,7 @@ MENU_NAMES = {
     "7": "즐겨찾기 목록",
     "8": "JSON 저장",
     "9": "JSON 불러오기",
+    "10": "카테고리별 Markdown 내보내기",
 }
 
 
@@ -289,6 +291,47 @@ def load_prompts_from_json():
     print(f"{len(prompts)}개의 프롬프트를 불러왔습니다.")
 
 
+def get_safe_filename(category):
+    """카테고리를 Windows에서 사용할 수 있는 파일명으로 바꾼다."""
+    invalid_characters = '\\/:*?"<>|'
+    return "".join("_" if char in invalid_characters else char for char in category)
+
+
+def export_prompts_by_category():
+    """프롬프트를 카테고리별 Markdown 파일로 내보낸다."""
+    if not prompts:
+        print("내보낼 프롬프트가 없습니다.")
+        return
+
+    EXPORT_DIRECTORY.mkdir(exist_ok=True)
+    prompts_by_category = {}
+    for prompt in prompts:
+        category = prompt["category"]
+        prompts_by_category.setdefault(category, []).append(prompt)
+
+    for category, category_prompts in prompts_by_category.items():
+        file_path = EXPORT_DIRECTORY / f"{get_safe_filename(category)}.md"
+        lines = [f"# {category} 프롬프트", ""]
+
+        for index, prompt in enumerate(category_prompts, start=1):
+            favorite_text = "예" if prompt["favorite"] else "아니오"
+            lines.extend(
+                [
+                    f"## {index}. {prompt['title']}",
+                    f"- 즐겨찾기: {favorite_text}",
+                    f"- 내용: {prompt['content']}",
+                    "",
+                ]
+            )
+
+        file_path.write_text("\n".join(lines), encoding="utf-8")
+
+    print(
+        f"{len(prompts_by_category)}개 카테고리의 Markdown 파일을 "
+        f"'{EXPORT_DIRECTORY}' 폴더에 저장했습니다."
+    )
+
+
 # ============================================================
 # 5. 메뉴 함수
 # ============================================================
@@ -337,6 +380,10 @@ def handle_menu_choice(choice):
 
     if choice == "9":
         load_prompts_from_json()
+        return
+
+    if choice == "10":
+        export_prompts_by_category()
         return
 
     if choice not in MENU_NAMES:
